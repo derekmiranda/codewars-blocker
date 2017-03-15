@@ -8,9 +8,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.codewars.com/*"],
-      "css": [], // css to apply to codewars
-      "js": ["codewars.js"]   // js to apply to codewars
+      "matches": ["*://*.codewars.com/*"],
+      "js": ["codewars.js"]   
     }
   ],
   "options_page": "options.html",

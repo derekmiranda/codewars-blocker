@@ -4,7 +4,8 @@ if (!SiteBlocker.getWatchThisInstead()) {
     SiteBlocker.setWatchThisInstead(chrome.extension.getURL("instead.html"));
 }
 chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
-    var completedTask = JSON.parse(localStorage.getItem('completedTask'));
+    var completedTask = localStorage.getItem('completedTask');
+
     if (completedTask) {
         // don't redirect when going to wanted page
         // localStorage.setItem('completedTask', false);
@@ -22,7 +23,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
         }
 
         // TODO: check if there's any elements with class name "solutions_view" i.e. solved coding challenge
-        
+
     }
 
 
@@ -32,7 +33,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
 chrome.tabs.onCreated.addListener(function(tab) {
     for (site in SiteBlocker.getBlockedSites()) {
         if (tab.url.match(site)) {
-            chrome.tabs.update(tab.id, {"url" : "./redirect.html"}, function () {});
+            chrome.tabs.update(tab.id, {"url" : codewarsUrl}, function () {});
         }
     }
 });

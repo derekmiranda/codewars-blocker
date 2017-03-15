@@ -20,22 +20,12 @@ var SiteBlocker = (function (LocalStorageHandler) {
     var my = {};
 
     my.blockTheseSites = {
-        "gawker.com"        : "Gawker Media",
-        "io9.com"           : "SciFi Blog",
-        "gizmodo.com"       : "Gadget Blog",
-        "kotaku.com"        : "Video Game Blog",
-        "jalopnik.com"      : "Car Blog",
-        "lifehacker.com"    : "Productivity Blog",
-        "deadspin.com"      : "Sports Blog",
-        "jezebel.com"       : "Celebrity Blog",
-        "fleshbot.com"      : "Porn Blog",
-        "gawker.tv"         : "Gawker.TV",
-        "cityfile.com"      : "Notable People Blog"
+        "youtube.com" : "YouTube",
+        "facebook.com" : "Facebook",
+        "twitter.com" : "Twitter"
     }
     
-    if (!LocalStorageHandler.get("blocklist")) {
-        LocalStorageHandler.put("blocklist", JSON.stringify(my.blockTheseSites));
-    }
+    LocalStorageHandler.put("blocklist", JSON.stringify(my.blockTheseSites));
     
     my.getBlockedSites = function () {
         return JSON.parse(LocalStorageHandler.get("blocklist"));
