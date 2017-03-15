@@ -1,4 +1,4 @@
-var SM = (function () {
+var LocalStorageHandler = (function () {
 
     var my = {};
 
@@ -16,7 +16,7 @@ var SM = (function () {
 
 }());
 
-var GB = (function (SM) {
+var SiteBlocker = (function (LocalStorageHandler) {
     var my = {};
 
     my.blockTheseSites = {
@@ -33,39 +33,39 @@ var GB = (function (SM) {
         "cityfile.com"      : "Notable People Blog"
     }
     
-    if (!SM.get("blocklist")) {
-        SM.put("blocklist", JSON.stringify(my.blockTheseSites));
+    if (!LocalStorageHandler.get("blocklist")) {
+        LocalStorageHandler.put("blocklist", JSON.stringify(my.blockTheseSites));
     }
     
     my.getBlockedSites = function () {
-        return JSON.parse(SM.get("blocklist"));
+        return JSON.parse(LocalStorageHandler.get("blocklist"));
     }
     
     my.setWatchThisInstead = function (value) {
         var prot = /^http|chrome-extension/i;
         if (value.match(prot)) {
-            SM.put("instead", value);
+            LocalStorageHandler.put("instead", value);
         } else {
-            SM.put("instead", "http://" + value);
+            LocalStorageHandler.put("instead", "http://" + value);
         }
-        return SM.get("instead");
+        return LocalStorageHandler.get("instead");
     }
 
     my.getWatchThisInstead = function () {
-        return SM.get("instead");        
+        return LocalStorageHandler.get("instead");        
     }
     
     my.addBlockedSite = function (site) {
-        my.blockedSites = JSON.parse(SM.get("blocklist"));
+        my.blockedSites = JSON.parse(LocalStorageHandler.get("blocklist"));
         my.blockedSites[site] = "Custom Add";
-        SM.put("blocklist", JSON.stringify(my.blockedSites));
+        LocalStorageHandler.put("blocklist", JSON.stringify(my.blockedSites));
     }
 
     my.removeBlockedSite = function (site) {
-        my.blockedSites = JSON.parse(SM.get("blocklist"));
+        my.blockedSites = JSON.parse(LocalStorageHandler.get("blocklist"));
         delete my.blockedSites[site];
-        SM.put("blocklist", JSON.stringify(my.blockedSites));
+        LocalStorageHandler.put("blocklist", JSON.stringify(my.blockedSites));
     }
     
     return my;
-}(SM));
+}(LocalStorageHandler));

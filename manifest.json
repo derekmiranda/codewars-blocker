@@ -4,7 +4,7 @@
   "version": "1.0",
   "description": "Tired of taking the Nerd Bait? Use GawkBlocker!",
   "background" : {
-    "scripts": ["gawkblocker.js", "background.js"]
+    "scripts": ["siteblocker.js", "background.js"]
   },
   "options_page": "options.html",
   "icons": {
@@ -17,5 +17,8 @@
     "default_title": "GawkBlocker",
     "default_popup": "popup.html"
   },
-  "permissions": ["tabs"]
+  "permissions": [
+    "tabs",
+    "storage"
+  ]
 }

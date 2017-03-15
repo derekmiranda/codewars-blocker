@@ -1,17 +1,38 @@
-if (!GB.getWatchThisInstead()) {
-    GB.setWatchThisInstead(chrome.extension.getURL("instead.html"));
+if (!SiteBlocker.getWatchThisInstead()) {
+    SiteBlocker.setWatchThisInstead(chrome.extension.getURL("instead.html"));
 }
 chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
-    for (site in GB.getBlockedSites()) {
-        if (tab.url.match(site)) {
-            chrome.tabs.update(tabId, {"url" : GB.getWatchThisInstead()}, function () {});
+    var completedTask = JSON.parse(localStorage.getItem('completedTask'));
+    if (completedTask) {
+        // don't redirect when going to wanted page
+        // localStorage.setItem('completedTask', false);
+    } else {
+        for (site in SiteBlocker.getBlockedSites()) {
+            if (tab.url.match(site)) {
+                // store the wanted page in Session storage
+                localStorage.setItem('wantedPage', tab.url);
+                // then redirect once user has completed task
+                
+                chrome.tabs.update(tabId, {"url" : "./redirect.html"}, function () {
+                    // localStorage.setItem('wantedPage', null);
+                });
+            }
         }
     }
+
+
+    
 });
+
 chrome.tabs.onCreated.addListener(function(tab) {
-    for (site in GB.getBlockedSites()) {
+    for (site in SiteBlocker.getBlockedSites()) {
         if (tab.url.match(site)) {
-            chrome.tabs.update(tab.id, {"url" : GB.getWatchThisInstead()}, function () {});
+            chrome.tabs.update(tab.id, {"url" : "./redirect.html"}, function () {});
         }
     }
 });
+
+// if on wanted and then close --> completedTask = false
+chrome.tabs.onRemoved.addListener(function() {
+    localStorage.setItem('completedTask', false);
+})
