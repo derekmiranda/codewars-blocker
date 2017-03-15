@@ -1,8 +1,8 @@
 <html>
     <head>
-        <title>GawkBlocker</title>
-        <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
-        <link href='http://fonts.googleapis.com/css?family=Signika:400,700' rel='stylesheet' type='text/css'>
+        <title>Site Blocker</title>
+        <script type="text/javascript" src="vendor/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="siteblocker.js"></script>
         <style>
             html {
                 height: 470px;
@@ -11,7 +11,7 @@
                 height: 100px;
             }
             body, h2, h4 {
-                font-family: 'Signika', sans-serif;
+                font-family: Helvetica, sans-serif;
             }
             #onestep {
                 background-color: #888;
@@ -24,7 +24,6 @@
                 text-align: center;
                 min-width: 250px;
                 min-height: 100px;
-                font-family: 'Signika', sans-serif;
                 color: white;
             }
             h2 {
@@ -56,14 +55,14 @@
         </style>
         <script type="text/javascript">
         $(document).ready(function(){
-            $.each(chrome.extension.getBackgroundPage().GB.getBlockedSites(), function (index, value) {
+            console.log('Popup')
+            $.each(SiteBlocker.getBlockedSites(), function (index, value) {
                 $("#blockedlist").append("<div class='siterow' title='"+value+"'><div class='sitename'>"+index+"</div><span class='sitedesc'> : "+value+"</span></div>");
             });
         });
         </script>
     </head>
     <body>
-        <h2>GAWKBLOCKER</h2>
         <div id="onestep">
             <h4>BLOCKING THESE SITES</h4>
             <div id="blockedlist">
