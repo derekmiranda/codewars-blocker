@@ -1,11 +1,18 @@
 {
   "manifest_version": 2,
-  "name": "GawkBlocker",
+  "name": "Code Challenge Blocker",
   "version": "1.0",
-  "description": "Tired of taking the Nerd Bait? Use GawkBlocker!",
+  "description": "Addicted to the Internet? Stop yourself with a coding challenge instead!",
   "background" : {
     "scripts": ["siteblocker.js", "background.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["https://www.codewars.com/*"],
+      "css": [], // css to apply to codewars
+      "js": ["codewars.js"]   // js to apply to codewars
+    }
+  ],
   "options_page": "options.html",
   "icons": {
     "16" : "images/GB-19.png",
@@ -14,7 +21,7 @@
   },
   "browser_action": {
     "default_icon": "images/GB-19.png",
-    "default_title": "GawkBlocker",
+    "default_title": "Code Challenge Blocker",
     "default_popup": "popup.html"
   },
   "permissions": [

@@ -1,3 +1,5 @@
+const codewarsUrl = 'https://www.codewars.com/dashboard';
+
 if (!SiteBlocker.getWatchThisInstead()) {
     SiteBlocker.setWatchThisInstead(chrome.extension.getURL("instead.html"));
 }
@@ -13,11 +15,14 @@ chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
                 localStorage.setItem('wantedPage', tab.url);
                 // then redirect once user has completed task
                 
-                chrome.tabs.update(tabId, {"url" : "./redirect.html"}, function () {
+                chrome.tabs.update(tabId, {"url" : codewarsUrl}, function () {
                     // localStorage.setItem('wantedPage', null);
                 });
             }
         }
+
+        // TODO: check if there's any elements with class name "solutions_view" i.e. solved coding challenge
+        
     }
 
 
