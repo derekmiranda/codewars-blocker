@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>GawkBlocker</title>
+        <script type="text/javascript" src="jquery-1.7.min.js"></script>
+        <script type="text/javascript" src="gawkblocker.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Signika:400,700' rel='stylesheet' type='text/css'>
+        <style>
+            body, h2, #makethathappen, #watchthis {
+                font-family: 'Signika', sans-serif;
+            }
+            #onestep {
+                background-color: #888;
+                border: 2px solid black;
+                padding: 90px;
+                width: 420px;
+                margin: 0 auto;
+                text-align: left;
+                color: #fff;
+            }
+            body {
+                margin-top: 100px;
+                text-align: center;
+                min-width: 600px;
+                min-height: 600px;
+                font-family: 'Signika', sans-serif;
+            }
+            h2 {
+                font-size: 36px;
+            }
+            #watchthatinstead {
+                width: 150px;
+            }
+        </style>
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $("#watchthis").click(function () {
+                GB.setWatchThisInstead(chrome.extension.getURL("instead.html"));
+                $("#status").text("YOU'RE GOOD MATE.  ");
+                $("#status").append("<a href='http://gawker.com'>TRY ME</a>");
+            });
+            $("#makethathappen").click(function () {
+                GB.setWatchThisInstead($("#watchthatinstead").val());
+                $("#status").text("GO WHERE YOU LIKE MATE.  ");
+                $("#status").append("<a href='http://gawker.com'>TRY ME</a>");
+            });
+            $("#blockthistoo").click(function () {
+                GB.addBlockedSite($("#dontgothere").val());
+                $("#status").text("G'ON AND TRY IT.  ");
+                var prot = /\/\//g;
+                if ($("#dontgothere").val().match(prot)) {
+                    $("#status").append("<a href='" + $("#dontgothere").val() + "'>TRY ME</a>");
+                } else {
+                    $("#status").append("<a href='http://" + $("#dontgothere").val() + "'>TRY ME</a>");
+                }
+                showBlockList();
+            });
+            if (GB.getWatchThisInstead() != chrome.extension.getURL("instead.html")) {
+                $("#watchthatinstead").text(GB.getWatchThisInstead());
+            }
+            showBlockList();
+        });
+        function showBlockList () {
+            $("#blocklist").children().remove();
+            var i=1;
+            $.each(GB.getBlockedSites(), function (index, value) {
+                $("#blocklist").append("<div id='site-"+i+"'><input type='button' id='unblock-"+i+"' value='OH GO ON THEN' /> " + index + " : " + value + "</div>");
+                $("#unblock-"+i).click(function () {
+                    GB.removeBlockedSite(index);
+                    showBlockList();
+                });
+                i++;
+            });
+        }
+        </script>
+    </head>
+    <body>
+        <h2>WOULDN'T YOU RATHER WATCH MADNESS?</h2>
+        <div id="onestep">
+        <p>YES, I REALLY WOULD! <input type="button" id="watchthis" value="TRIFFIC" /></p>
+        <p>I'D RATHER GO TO <input id="watchthatinstead" /> INSTEAD, <input type="button" id="makethathappen" value="OORITE" /></p>
+        <p>BLOCK <input id="dontgothere" /> TOO! <input type="button" id="blockthistoo" value="SMASHING!" /></p>
+        <p id="status"></p>
+        <p id="blocklist"></p>
+        </div>
+    </body>
+</html>

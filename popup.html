@@ -1,37 +1,73 @@
-<!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
 <html>
-  <head>
-    <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 400px;
-      }
-    </style>
-
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
-    <script src="popup.js"></script>
-  </head>
-  <body>
-    <div id="status"></div>
-    <img id="image-result" hidden>
-  </body>
+    <head>
+        <title>GawkBlocker</title>
+        <script type="text/javascript" src="jquery-1.7.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Signika:400,700' rel='stylesheet' type='text/css'>
+        <style>
+            html {
+                height: 470px;
+            }
+            body {
+                height: 100px;
+            }
+            body, h2, h4 {
+                font-family: 'Signika', sans-serif;
+            }
+            #onestep {
+                background-color: #888;
+                border: 2px solid black;
+                padding: 5px;
+                text-align: left;
+            }
+            body {
+                margin: 10px;
+                text-align: center;
+                min-width: 250px;
+                min-height: 100px;
+                font-family: 'Signika', sans-serif;
+                color: white;
+            }
+            h2 {
+                font-size: 36px;
+                color: black;
+                margin-bottom: 15px;
+            }
+            h4 {
+                font-size: 22px;
+                text-align: center;
+                margin-bottom: 15px;
+                margin-top: 10px;
+            }
+            .siterow {
+                clear: both;
+            }
+            .sitename {
+                font-size: 20px;
+                float: left;
+                width: 130px;
+                padding-bottom: 5px;
+            }
+            .sitedesc {
+                position: relative;
+                top: 5px;
+                line-height: 20px;
+                font-size: 12px;
+            }
+        </style>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $.each(chrome.extension.getBackgroundPage().GB.getBlockedSites(), function (index, value) {
+                $("#blockedlist").append("<div class='siterow' title='"+value+"'><div class='sitename'>"+index+"</div><span class='sitedesc'> : "+value+"</span></div>");
+            });
+        });
+        </script>
+    </head>
+    <body>
+        <h2>GAWKBLOCKER</h2>
+        <div id="onestep">
+            <h4>BLOCKING THESE SITES</h4>
+            <div id="blockedlist">
+            </div>
+        </div>
+    </body>
 </html>
-
