@@ -10,22 +10,24 @@ chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
 chrome.tabs.onCreated.addListener(blockPageUnlessCompletedTask);
 
 function blockPageUnlessCompletedTask (tab) {
-    var completedTask = JSON.parse(localStorage.getItem('completedTask'));
-    if (completedTask) {
+    chrome.storage.local.get('completedTask', (itemObj) => {
+        const completedTask = itemObj['completedTask'];
+        if (completedTask) {
 
-    } else {
-        for (site in SiteBlocker.getBlockedSites()) {
-            if (tab.url.match(site)) {
-                // store the wanted page in Session storage
-                localStorage.setItem('wantedPage', tab.url);
-                // then redirect once user has completed task
-                
-                chrome.tabs.update(tab.id, {"url" : codewarsUrl}, function () {
-                    // localStorage.setItem('wantedPage', null);
-                });
+        } else {
+            for (site in SiteBlocker.getBlockedSites()) {
+                if (tab.url.match(site)) {
+                    // store the wanted page in Session storage
+                    chrome.storage.local.set({
+                        'wantedPage', tab.url
+                    }, () => {
+                        // then redirect once user has completed task
+                        chrome.tabs.update(tab.id, {"url" : codewarsUrl}, function () {});
+                    });
+                }
             }
         }
-    }
+    });
 }
 
 // if on wanted and then close --> completedTask = false
@@ -34,6 +36,8 @@ chrome.windows.onRemoved.addListener(reset);
 chrome.windows.onCreated.addListener(reset);
 
 function reset () {
-    localStorage.setItem('completedTask', 'false');
-    localStorage.setItem('wantedPage', '');    
+    chrome.storage.local.set({
+        'wantedPage': null,
+        'completedTask': false
+    }, () => {});  
 }

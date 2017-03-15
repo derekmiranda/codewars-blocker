@@ -20,7 +20,6 @@ var SiteBlocker = (function (LocalStorageHandler) {
     var my = {};
 
     my.blockTheseSites = {
-        "youtube.com" : "YouTube",
         "facebook.com" : "Facebook",
         "twitter.com" : "Twitter"
     }
