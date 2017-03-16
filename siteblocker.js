@@ -19,34 +19,45 @@ var LocalStorageHandler = (function () {
 var SiteBlocker = (function (LocalStorageHandler) {
     var my = {};
 
-    my.blockTheseSites = {
+    my.defaults = {
+        "codesmith.io" : "Codesmith",
         "facebook.com" : "Facebook",
-        "twitter.com" : "Twitter"
+        "twitter.com" : "Twitter",
+        "youtube.com" : "YouTube",
+        "reddit.com"  : "Reddit",
+        "pinterest.com" : "Pinterest",
+        "instagram.com" : "Instagram",
+        "ebay.com" : "Ebay",
+        "amazon.com" : "Amazon",
+        "netflix.com" : "Netflix",
+        "tumblr.com" : "Tumblr",
+        "9gag.com" : "9Gag",
+        "hulu.com" : "Hulu"
     }
-    
-    LocalStorageHandler.put("blocklist", JSON.stringify(my.blockTheseSites));
+
+    // set defaults on install
+    if (!LocalStorageHandler.get("blocklist")) {
+        LocalStorageHandler.put("blocklist", JSON.stringify(my.defaults));
+    }
     
     my.getBlockedSites = function () {
         return JSON.parse(LocalStorageHandler.get("blocklist"));
     }
     
-    my.setWatchThisInstead = function (value) {
-        var prot = /^http|chrome-extension/i;
-        if (value.match(prot)) {
-            LocalStorageHandler.put("instead", value);
-        } else {
-            LocalStorageHandler.put("instead", "http://" + value);
-        }
-        return LocalStorageHandler.get("instead");
-    }
-
-    my.getWatchThisInstead = function () {
-        return LocalStorageHandler.get("instead");        
-    }
-    
     my.addBlockedSite = function (site) {
         my.blockedSites = JSON.parse(LocalStorageHandler.get("blocklist"));
-        my.blockedSites[site] = "Custom Add";
+
+        var match = site.match(/^\w+\b/);
+        var name = match && match[0];
+
+        if (name) {
+            name = name.split('');
+            name[0] = name[0].toUpperCase();
+            name = name.join('');
+        } else {
+            name = 'Custom Site';
+        }
+        my.blockedSites[site] = name;
         LocalStorageHandler.put("blocklist", JSON.stringify(my.blockedSites));
     }
 

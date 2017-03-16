@@ -1,35 +1,33 @@
 $(document).ready(function () {
-    $("#watchthis").click(function () {
-        SiteBlocker.setWatchThisInstead(chrome.extension.getURL("instead.html"));
-        $("#status").text("YOU'RE GOOD MATE.  ");
-        $("#status").append("<a href='http://gawker.com'>TRY ME</a>");
-    });
-    $("#makethathappen").click(function () {
-        SiteBlocker.setWatchThisInstead($("#watchthatinstead").val());
-        $("#status").text("GO WHERE YOU LIKE MATE.  ");
-        $("#status").append("<a href='http://gawker.com'>TRY ME</a>");
-    });
     $("#blockthistoo").click(function () {
-        SiteBlocker.addBlockedSite($("#dontgothere").val());
-        $("#status").text("G'ON AND TRY IT.  ");
-        var prot = /\/\//g;
-        if ($("#dontgothere").val().match(prot)) {
-            $("#status").append("<a href='" + $("#dontgothere").val() + "'>TRY ME</a>");
-        } else {
-            $("#status").append("<a href='http://" + $("#dontgothere").val() + "'>TRY ME</a>");
-        }
-        showBlockList();
+        updateList();
     });
-    if (SiteBlocker.getWatchThisInstead() != chrome.extension.getURL("instead.html")) {
-        $("#watchthatinstead").text(SiteBlocker.getWatchThisInstead());
-    }
+
+    $("#dontgothere").keypress(e => {
+        // Enter
+        if (e.which === 13) updateList();
+    });
+
     showBlockList();
 });
+
+function updateList() {
+    SiteBlocker.addBlockedSite($("#dontgothere").val());
+    var prot = /\/\//g;
+    if ($("#dontgothere").val().match(prot)) {
+        $("#status").append("<a href='" + $("#dontgothere").val() + "'>Try me now!</a>");
+    } else {
+        $("#status").append("<a href='http://" + $("#dontgothere").val() + "'>Try me now!</a>");
+    }
+    $("#dontgothere").val('');
+    showBlockList();
+}
+
 function showBlockList () {
     $("#blocklist").children().remove();
     var i=1;
     $.each(SiteBlocker.getBlockedSites(), function (index, value) {
-        $("#blocklist").append("<div id='site-"+i+"'><input type='button' id='unblock-"+i+"' value='OH GO ON THEN' /> " + index + " : " + value + "</div>");
+        $("#blocklist").append("<div id='site-"+i+"'><input type='button' id='unblock-"+i+"' value='I surrender...' /> " + index + " : " + value + "</div>");
         $("#unblock-"+i).click(function () {
             SiteBlocker.removeBlockedSite(index);
             showBlockList();

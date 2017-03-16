@@ -1,21 +1,21 @@
 {
   "manifest_version": 2,
-  "name": "Code Challenge Blocker",
-  "version": "1.0",
-  "description": "Addicted to the Internet? Stop yourself with a coding challenge instead!",
+  "name": "Code Block",
+  "version": "1.1",
+  "description": "A Productivity Tool for Coding Masochists!",
   "background" : {
     "scripts": ["siteblocker.js", "background.js"],
     "persistent": false
   },
   "options_page": "options.html",
   "icons": {
-    "16" : "images/GB-19.png",
-    "48" : "images/GB-48.png",
-    "128" : "images/GB-128.png"
+    "16" : "images/lock16.png",
+    "48" : "images/lock48.png",
+    "128" : "images/lock128.png"
   },
   "browser_action": {
-    "default_icon": "images/GB-19.png",
-    "default_title": "Code Challenge Blocker",
+    "default_icon": "images/lock16.png",
+    "default_title": "Code Block",
     "default_popup": "popup.html"
   },
   "permissions": [
