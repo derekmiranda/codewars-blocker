@@ -1,6 +1,5 @@
 const codewarsUrl = 'https://www.codewars.com/dashboard';
 
-
 chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
     blockPageUnlessCompletedTask(tab);
 });
@@ -12,6 +11,15 @@ function blockPageUnlessCompletedTask (tab) {
         const completedTask = itemObj['completedTask'];
         if (completedTask) {
             return;
+        }
+
+        if (tab.url.match(/codewars\.com.+solutions/i)) {
+            chrome.storage.local.set({
+                completedTask: true
+            }, () => {
+                window.alert('Solved!');
+                console.log("Challenge Solved!");
+            });
         }
 
         for (site in SiteBlocker.getBlockedSites()) {
@@ -29,13 +37,10 @@ function blockPageUnlessCompletedTask (tab) {
 }
 
 // if on wanted and then close --> completedTask = false
-chrome.tabs.onRemoved.addListener(reset);
-chrome.windows.onCreated.addListener(reset);
+// chrome.tabs.onRemoved.addListener(reset);
+// chrome.windows.onCreated.addListener(reset);
 chrome.windows.onRemoved.addListener(reset);
 
-function reset (cb) {
-    chrome.storage.local.set({
-        wantedPage: null,
-        completedTask: false
-    }, cb);  
+function reset () {
+    chrome.storage.local.clear();
 }
