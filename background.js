@@ -1,5 +1,6 @@
 const codewarsUrl = 'https://www.codewars.com/dashboard';
 
+
 chrome.tabs.onUpdated.addListener(function(tabId, changedInfo, tab) {
     blockPageUnlessCompletedTask(tab);
 });
@@ -28,8 +29,8 @@ function blockPageUnlessCompletedTask (tab) {
 }
 
 // if on wanted and then close --> completedTask = false
-// chrome.tabs.onRemoved.addListener(reset);
-// chrome.windows.onCreated.addListener(reset);
+chrome.tabs.onRemoved.addListener(reset);
+chrome.windows.onCreated.addListener(reset);
 chrome.windows.onRemoved.addListener(reset);
 
 function reset (cb) {
