@@ -30,7 +30,9 @@ function blockPageUnlessCompletedTask (tab) {
         chrome.storage.local.get(['triedBlockedPage', 'wantedPage'], items => {
             const triedBlockedPage = items['triedBlockedPage'];
             const wantedPage = items['wantedPage'];
-            if (triedBlockedPage && tab.url.match(/codewars\.com.+solutions/i)) {
+
+            // will redirect if you've solved a challenge (forrealsies)
+            if (triedBlockedPage && tab.url.match(/codewars\.com.+\/solutions\b(?!.+show\-solutions=1)/i)) {
                 chrome.storage.local.set({
                     completedTask: true
                 }, () => {
