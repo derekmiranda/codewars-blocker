@@ -3,27 +3,18 @@
         <title>Site Blocker</title>
         <script type="text/javascript" src="vendor/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="siteblocker.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
         <style>
             html {
-                height: 470px;
-            }
-            body {
-                height: 100px;
+                max-height: 100px;
             }
             body, h2, h4 {
-                font-family: Helvetica, sans-serif;
-            }
-            #onestep {
-                background-color: #888;
-                border: 2px solid black;
-                padding: 5px;
-                text-align: left;
+               font-family: 'Pangolin', cursive;
             }
             body {
                 margin: 10px;
                 text-align: center;
                 min-width: 250px;
-                min-height: 100px;
                 color: white;
             }
             h2 {
@@ -36,6 +27,14 @@
                 text-align: center;
                 margin-bottom: 15px;
                 margin-top: 10px;
+            }
+            #onestep {
+                background-color: #a0000f ;
+                border: 2px solid black;
+                border-radius: 5px;
+                text-align: left;
+                padding: 25px 10px;
+                overflow-y: scroll;
             }
             .siterow {
                 clear: both;
@@ -53,14 +52,7 @@
                 font-size: 12px;
             }
         </style>
-        <script type="text/javascript">
-        $(document).ready(function(){
-            console.log('Popup')
-            $.each(SiteBlocker.getBlockedSites(), function (index, value) {
-                $("#blockedlist").append("<div class='siterow' title='"+value+"'><div class='sitename'>"+index+"</div><span class='sitedesc'> : "+value+"</span></div>");
-            });
-        });
-        </script>
+        <script type="text/javascript" src="popup.js"></script>
     </head>
     <body>
         <div id="onestep">
