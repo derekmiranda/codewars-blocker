@@ -13,24 +13,31 @@ function blockPageUnlessCompletedTask (tab) {
             return;
         }
 
-        if (tab.url.match(/codewars\.com.+solutions/i)) {
-            chrome.storage.local.set({
-                completedTask: true
-            }, () => {
-            });
-        }
-
         for (site in SiteBlocker.getBlockedSites()) {
             if (tab.url.match(site)) {
                 // store the wanted page in Session storage
                 chrome.storage.local.set({
+                    triedBlockedPage: true,
                     wantedPage: tab.url
                 }, () => {
                     // then redirect once user has completed task
-                    chrome.tabs.update(tab.id, {"url" : codewarsUrl}, function () {});
+                    chrome.tabs.update(tab.id, {"url" : codewarsUrl}, () => {});
                 });
             }
         }
+
+        // check triedBlockedPage
+        chrome.storage.local.get(['triedBlockedPage', 'wantedPage'], items => {
+            const triedBlockedPage = items['triedBlockedPage'];
+            const wantedPage = items['wantedPage'];
+            if (triedBlockedPage && tab.url.match(/codewars\.com.+solutions/i)) {
+                chrome.storage.local.set({
+                    completedTask: true
+                }, () => {
+                    chrome.tabs.update(tab.id, {"url" : wantedPage}, () => {});
+                });
+            }
+        })
     });
 }
 
