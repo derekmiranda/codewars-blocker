@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Code Block",
+  "author": "Derek and Naomi",
   "version": "1.1",
   "description": "A Productivity Tool for Coding Masochists!",
   "background" : {

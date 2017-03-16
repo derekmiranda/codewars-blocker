@@ -16,7 +16,8 @@ function blockPageUnlessCompletedTask (tab) {
         if (tab.url.match(/codewars\.com.+solutions/i)) {
             chrome.storage.local.set({
                 completedTask: true
-            }, () => {});
+            }, () => {
+            });
         }
 
         for (site in SiteBlocker.getBlockedSites()) {
